@@ -32,7 +32,7 @@ function Footer() {
           <div className="footer-brand">
 
             <a href="#home" className="footer-logo">
-              Kaised<span>.</span>
+              KaiSed<span>.</span>
             </a>
 
             <p>
@@ -70,7 +70,7 @@ function Footer() {
             >
               <Mail size={18} />
 
-              <span>your@email.com</span>
+              <span>kaised.bd@gmail.com</span>
             </a>
 
 
