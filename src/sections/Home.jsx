@@ -95,15 +95,15 @@ function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              <a href="#" aria-label="GitHub">
+              <a href="https://github.com/kaised9" aria-label="GitHub">
                 <FaGithub size={20} />
               </a>
 
-              <a href="#" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/md-kaised-mollick-46b909238/" aria-label="LinkedIn">
                 <FaLinkedinIn size={20} />
               </a>
 
-              <a href="#" aria-label="Email">
+              <a href="kaised.contact@gmail.com" aria-label="Email">
                 <Mail size={20} />
               </a>
             </motion.div>
