@@ -4,6 +4,9 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
+const connectDB = require("./config/db");
+const contactRoutes = require("./routes/contactRoutes");
+
 
 /* =========================================
    ENVIRONMENT CONFIGURATION
@@ -22,20 +25,38 @@ const PORT = process.env.PORT || 5000;
 
 
 /* =========================================
+   DATABASE CONNECTION
+========================================= */
+
+connectDB();
+
+
+/* =========================================
    MIDDLEWARE
 ========================================= */
 
-// Allow requests from the frontend
+// Allow frontend requests
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
+    origin: [
+      "http://localhost:5173",
+      "https://kai-sed-portfolio.vercel.app/",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
 );
 
-// Allow JSON data in requests
+// Allow JSON data
 app.use(express.json());
+
+
+/* =========================================
+   API ROUTES
+========================================= */
+
+// Contact API
+app.use("/api/contact", contactRoutes);
 
 
 /* =========================================
@@ -59,6 +80,19 @@ app.get("/api/health", (req, res) => {
     success: true,
     status: "OK",
     server: "KaiSed Portfolio Backend",
+    database: "MongoDB connected",
+  });
+});
+
+
+/* =========================================
+   404 ROUTE
+========================================= */
+
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API route not found.",
   });
 });
 

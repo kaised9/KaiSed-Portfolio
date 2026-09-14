@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 import {
@@ -6,6 +7,9 @@ import {
   Send,
   MessageCircle,
   Sparkles,
+  LoaderCircle,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 
 import {
@@ -17,7 +21,31 @@ import {
 
 import { FaTelegramPlane } from "react-icons/fa";
 
+
 function Contact() {
+  /* =========================================
+     FORM STATE
+  ========================================= */
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [isSending, setIsSending] = useState(false);
+
+  const [formStatus, setFormStatus] = useState({
+    type: "",
+    message: "",
+  });
+
+
+  /* =========================================
+     SOCIAL LINKS
+  ========================================= */
+
   const socialLinks = [
     {
       name: "Facebook",
@@ -51,11 +79,121 @@ function Contact() {
     },
   ];
 
+
+  /* =========================================
+     HANDLE INPUT CHANGE
+  ========================================= */
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]: value,
+    }));
+  };
+
+
+  /* =========================================
+     HANDLE FORM SUBMIT
+  ========================================= */
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    setIsSending(true);
+
+    setFormStatus({
+      type: "",
+      message: "",
+    });
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/contact",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const result = await response.json();
+
+
+      /* =========================================
+         SUCCESS
+      ========================================= */
+
+      if (response.ok && result.success) {
+        setFormStatus({
+          type: "success",
+          message:
+            "Your message has been sent successfully! I'll get back to you soon.",
+        });
+
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      }
+
+
+      /* =========================================
+         API ERROR
+      ========================================= */
+
+      else {
+        setFormStatus({
+          type: "error",
+          message:
+            result.message ||
+            "Something went wrong. Please try again.",
+        });
+      }
+    }
+
+
+    /* =========================================
+       NETWORK ERROR
+    ========================================= */
+
+    catch (error) {
+      console.error("Contact Form Error:", error);
+
+      setFormStatus({
+        type: "error",
+        message:
+          "Unable to connect to the server. Please try again later.",
+      });
+    }
+
+
+    /* =========================================
+       STOP LOADING
+    ========================================= */
+
+    finally {
+      setIsSending(false);
+    }
+  };
+
+
   return (
     <section id="contact" className="contact section">
       <div className="contact-container">
 
-        {/* SECTION HEADER */}
+
+        {/* =====================================
+            SECTION HEADER
+        ===================================== */}
+
         <motion.div
           className="contact-heading"
           initial={{ opacity: 0, y: 30 }}
@@ -65,6 +203,7 @@ function Contact() {
         >
           <div className="contact-label">
             <Sparkles size={16} />
+
             <span>LET'S CONNECT</span>
           </div>
 
@@ -80,7 +219,10 @@ function Contact() {
         </motion.div>
 
 
-        {/* CONTACT HUB */}
+        {/* =====================================
+            CONTACT HUB
+        ===================================== */}
+
         <motion.div
           className="contact-hub"
           initial={{ opacity: 0, scale: 0.96 }}
@@ -90,6 +232,7 @@ function Contact() {
         >
 
           {/* CENTRAL CORE */}
+
           <div className="contact-core">
 
             <div className="contact-core-icon">
@@ -107,28 +250,33 @@ function Contact() {
 
 
           {/* EMAIL */}
+
           <a
             href="mailto:your@email.com"
             className="contact-node node-email"
             aria-label="Email"
           >
             <Mail size={21} />
+
             <span>Email</span>
           </a>
 
 
           {/* PHONE */}
+
           <a
             href="tel:+8800000000000"
             className="contact-node node-phone"
             aria-label="Phone"
           >
             <Phone size={21} />
+
             <span>Phone</span>
           </a>
 
 
           {/* WHATSAPP */}
+
           <a
             href="https://wa.me/8800000000000"
             target="_blank"
@@ -137,11 +285,13 @@ function Contact() {
             aria-label="WhatsApp"
           >
             <MessageCircle size={21} />
+
             <span>WhatsApp</span>
           </a>
 
 
           {/* SOCIAL ICONS */}
+
           <div className="contact-social-nodes">
 
             {socialLinks.map((social) => (
@@ -162,7 +312,10 @@ function Contact() {
         </motion.div>
 
 
-        {/* MESSAGE FORM */}
+        {/* =====================================
+            MESSAGE FORM
+        ===================================== */}
+
         <motion.div
           className="contact-message-area"
           initial={{ opacity: 0, y: 40 }}
@@ -182,35 +335,56 @@ function Contact() {
           </div>
 
 
-          <form className="contact-form">
+          {/* CONTACT FORM */}
+
+          <form
+            className="contact-form"
+            onSubmit={handleSubmit}
+          >
 
             <div className="form-row">
 
+              {/* NAME */}
+
               <div className="form-group">
+
                 <label>Your Name</label>
 
                 <input
                   type="text"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Enter your name"
                   required
+                  disabled={isSending}
                 />
+
               </div>
 
 
+              {/* EMAIL */}
+
               <div className="form-group">
+
                 <label>Email Address</label>
 
                 <input
                   type="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="Enter your email"
                   required
+                  disabled={isSending}
                 />
+
               </div>
 
             </div>
 
+
+            {/* SUBJECT */}
 
             <div className="form-group">
 
@@ -219,12 +393,17 @@ function Contact() {
               <input
                 type="text"
                 name="subject"
+                value={formData.subject}
+                onChange={handleChange}
                 placeholder="What would you like to discuss?"
                 required
+                disabled={isSending}
               />
 
             </div>
 
+
+            {/* MESSAGE */}
 
             <div className="form-group">
 
@@ -233,20 +412,58 @@ function Contact() {
               <textarea
                 name="message"
                 rows="6"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder="Write your message here..."
                 required
+                disabled={isSending}
               ></textarea>
 
             </div>
 
 
+            {/* STATUS MESSAGE */}
+
+            {formStatus.message && (
+              <div
+                className={`contact-form-status ${formStatus.type}`}
+              >
+                {formStatus.type === "success" ? (
+                  <CheckCircle2 size={19} />
+                ) : (
+                  <AlertCircle size={19} />
+                )}
+
+                <span>{formStatus.message}</span>
+              </div>
+            )}
+
+
+            {/* SUBMIT BUTTON */}
+
             <button
               type="submit"
               className="contact-send-button"
+              disabled={isSending}
             >
-              <Send size={19} />
 
-              <span>Send Message</span>
+              {isSending ? (
+                <>
+                  <LoaderCircle
+                    size={19}
+                    className="contact-loader"
+                  />
+
+                  <span>Sending...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={19} />
+
+                  <span>Send Message</span>
+                </>
+              )}
+
             </button>
 
           </form>
@@ -257,5 +474,6 @@ function Contact() {
     </section>
   );
 }
+
 
 export default Contact;
