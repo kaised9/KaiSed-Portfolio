@@ -50,32 +50,32 @@ function Contact() {
     {
       name: "Facebook",
       icon: <FaFacebookF size={21} />,
-      link: "#",
+      link: "https://www.facebook.com/its.kaised",
     },
     {
       name: "Instagram",
       icon: <FaInstagram size={21} />,
-      link: "#",
+      link: "https://www.instagram.com/its_kaised/",
     },
     {
       name: "LinkedIn",
       icon: <FaLinkedinIn size={21} />,
-      link: "#",
+      link: "https://www.linkedin.com/in/md-kaised-mollick-46b909238/",
     },
     {
       name: "Twitter",
       icon: <FaXTwitter size={21} />,
-      link: "#",
+      link: "https://x.com/its_kaised",
     },
     {
       name: "Telegram",
       icon: <FaTelegramPlane size={21} />,
-      link: "#",
+      link: "https://web.telegram.org/k/",
     },
     {
       name: "WhatsApp",
       icon: <MessageCircle size={21} />,
-      link: "#",
+      link: "https://wa.me/8801571400846",
     },
   ];
 
@@ -278,7 +278,7 @@ function Contact() {
           {/* WHATSAPP */}
 
           <a
-            href="https://wa.me/8800000000000"
+            href="https://wa.me/8801571400846"
             target="_blank"
             rel="noopener noreferrer"
             className="contact-node node-whatsapp"

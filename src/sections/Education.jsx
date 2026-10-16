@@ -11,19 +11,19 @@ function Education() {
     {
       icon: <GraduationCap size={26} />,
       type: "UNIVERSITY",
-      degree: "Bachelor's Degree",
-      institution: "Your University Name",
-      year: "20XX — Present",
+      degree: "BSc in Computer Science & Engineering",
+      institution: "Green University of Bangladesh",
+      year: "2022 — 2026",
       description:
         "Building a strong academic foundation while developing practical knowledge in technology, programming, and modern computing.",
-      status: "Current Journey",
+      status: "Completed",
     },
     {
       icon: <BookOpen size={26} />,
       type: "HIGHER SECONDARY",
       degree: "Higher Secondary Certificate",
-      institution: "Your College Name",
-      year: "20XX — 20XX",
+      institution: "Noapara Govt. College",
+      year: "2017 — 2019",
       description:
         "Developed academic knowledge and strengthened my interest in technology, logical thinking, and continuous learning.",
       status: "Completed",
@@ -32,8 +32,8 @@ function Education() {
       icon: <School size={26} />,
       type: "SECONDARY",
       degree: "Secondary School Certificate",
-      institution: "Your School Name",
-      year: "20XX — 20XX",
+      institution: "Mathurapur Purakhali Secondary School",
+      year: "2012 — 2017",
       description:
         "Built the academic foundation that started my educational journey and interest in learning and personal development.",
       status: "Completed",
